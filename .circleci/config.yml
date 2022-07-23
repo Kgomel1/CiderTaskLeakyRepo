@@ -1,0 +1,49 @@
+version: 2.1
+orbs: 
+  checkov: bridgecrew/checkov@0.0.4
+description: |
+  This job will install checkov and run it
+executor: default
+parameters:
+  api-key:
+    default: none
+    description: API key to access bridgecrew
+    type: string
+  branch:
+    default: master
+    description: Branch to scan
+    type: string
+  directory:
+    default: none
+    description: IaC root directory
+    type: string
+  file:
+    default: none
+    description: IaC file
+    type: string
+  output:
+    default: cli
+    description: Report output format
+    enum:
+      - json
+      - cli
+      - junitxml
+    type: enum
+  repo-id:
+    default: none
+    description: Repository to scan
+    type: string
+  soft-fail:
+    default: false
+    description: Runs checks but suppresses error code
+    type: boolean
+steps:
+  - install
+  - scan:
+      api-key: <<parameters.api-key>>
+      branch: <<parameters.branch>>
+      directory: <<parameters.directory>>
+      file: <<parameters.file>>
+      output: <<parameters.output>>
+      repo-id: <<parameters.repo-id>>
+      soft-fail: <<parameters.soft-fail>>
